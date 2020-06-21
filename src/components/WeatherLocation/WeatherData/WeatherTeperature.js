@@ -9,7 +9,7 @@ import {
     SNOW,
     WINDY,
     FOG,
-} from "../constants/weathers.js"
+} from "../../../constants/weathers.js"
 
 const icons = {
     [SUN]: "day-sunny",
@@ -39,8 +39,8 @@ const WeatherTemperature = ({temperature, weatherState}) => (
 );
 
 WeatherTemperature.propTypes = {
-    temperature: PropTypes.number, 
-    waetherState: PropTypes.string
+    temperature: PropTypes.number.isRequired, 
+    waetherState: PropTypes.string.isRequired,
 };
 
 export default WeatherTemperature;

@@ -8,7 +8,7 @@ import {
     RAIN,
     SNOW,
     WINDY,
-} from "../constants/weathers.js"
+} from "../../../constants/weathers.js"
 
 const WeatherData = () =>(
     <div>
@@ -19,5 +19,7 @@ const WeatherData = () =>(
         />
     </div>
 );
+
+
 
 export default WeatherData;
