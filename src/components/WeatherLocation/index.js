@@ -12,6 +12,14 @@ import {
 } from "../../constants/weathers.js"
 import { render } from '@testing-library/react'
 
+var location = "Bogota,co"
+const api_key = "6edc65645385be69e0675fe8b6852258"
+const url_base = "http://api.openweathermap.org/data/2.5/weather"
+
+const api_weather = `${url_base}?q=${location}&appid=${api_key}&units=metric`
+
+
+
 const data ={
     temperature: 25,
     weatherState: CLOUD,
@@ -19,13 +27,7 @@ const data ={
     wind: "3 km/h",
 
 }
-const data2 ={
-    temperature: 35,
-    weatherState: SUN,
-    humidity: "30",
-    wind: "5 km/h",
-    
-}
+
 class WeatherLocation extends Component{
 
     constructor(){
@@ -35,12 +37,39 @@ class WeatherLocation extends Component{
             data: data
         }
     }
+    getWatherState = weatherData =>{
+        return SUN
+    }
+    getData = weatherData =>{
+        const {humidity, temp} = weatherData.main
+        const { speed } = weatherData.wind
+        const weatherState = SUN
+
+        const data ={
+            humidity,
+            temperature: temp,
+            weatherState: this.getWatherState(weatherData),
+            wind: `${speed} m/s`,
+        }
+
+        return data
+    }
     handleUpdateClick = () =>{
-        console.log("actializado")
-        this.setState({
-            city: "Puente Nacional",
-            data: data2
+
+        fetch(api_weather).then(resolve => {
+            console.log(api_weather)
+            return resolve.json()
+        }).then(data =>{
+            console.log(data)
+            const newWeather = this.getData(data)
+            console.log(newWeather)
+            this.setState({
+                data: newWeather
+            })
+            
         })
+
+
     }
     render(){
         const {city, data} = this.state
