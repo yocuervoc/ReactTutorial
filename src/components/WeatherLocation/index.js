@@ -3,9 +3,8 @@ import Location from './Location'
 import WeatheData from './WeatherData'
 import './styles.css'
 import getData from './../../services/transformWeather'
-import { render } from '@testing-library/react'
 import { api_weather } from '../../constants/api_url'
-
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 
 
@@ -52,7 +51,7 @@ class WeatherLocation extends Component{
         console.log("render")
         return (<div className = "weatherLocationCont">
                     <Location city= {city}></Location>
-                    {data ? <WeatheData data={data}></WeatheData> : "Cargando..."}
+                    {data ? <WeatheData data={data}></WeatheData> : <CircularProgress size={50}/>}
                     <button onClick= {this.handleUpdateClick}>Actualizar</button>
                 </div>)
     }
