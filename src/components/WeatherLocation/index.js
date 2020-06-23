@@ -2,31 +2,12 @@ import React,  {Component} from 'react'
 import Location from './Location'
 import WeatheData from './WeatherData'
 import './styles.css'
-import {
-    CLOUD,
-    CLOUDY,
-    SUN,
-    RAIN,
-    SNOW,
-    WINDY,
-} from "../../constants/weathers.js"
+import getData from './../../services/transformWeather'
 import { render } from '@testing-library/react'
-
-var location = "Bogota,co"
-const api_key = "6edc65645385be69e0675fe8b6852258"
-const url_base = "http://api.openweathermap.org/data/2.5/weather"
-
-const api_weather = `${url_base}?q=${location}&appid=${api_key}&units=metric`
+import { api_weather } from '../../constants/api_url'
 
 
 
-const data ={
-    temperature: 25,
-    weatherState: CLOUD,
-    humidity: "12",
-    wind: "3 km/h",
-
-}
 
 class WeatherLocation extends Component{
 
@@ -34,26 +15,21 @@ class WeatherLocation extends Component{
         super()
         this.state ={
             city: "Puente Real",
-            data: data
+            data: null
         }
+        console.log("constructor")
     }
-    getWatherState = weatherData =>{
-        return SUN
-    }
-    getData = weatherData =>{
-        const {humidity, temp} = weatherData.main
-        const { speed } = weatherData.wind
-        const weatherState = SUN
 
-        const data ={
-            humidity,
-            temperature: temp,
-            weatherState: this.getWatherState(weatherData),
-            wind: `${speed} m/s`,
-        }
-
-        return data
+    componentDidMount(){
+        console.log("componentDidMount")
+        this.handleUpdateClick()
     }
+
+    componentDidUpdate(){
+        console.log("componentDidUpdate")
+    }
+
+
     handleUpdateClick = () =>{
 
         fetch(api_weather).then(resolve => {
@@ -61,7 +37,7 @@ class WeatherLocation extends Component{
             return resolve.json()
         }).then(data =>{
             console.log(data)
-            const newWeather = this.getData(data)
+            const newWeather = getData(data)
             console.log(newWeather)
             this.setState({
                 data: newWeather
@@ -73,9 +49,10 @@ class WeatherLocation extends Component{
     }
     render(){
         const {city, data} = this.state
+        console.log("render")
         return (<div className = "weatherLocationCont">
                     <Location city= {city}></Location>
-                    <WeatheData data={data}></WeatheData>
+                    {data ? <WeatheData data={data}></WeatheData> : "Cargando..."}
                     <button onClick= {this.handleUpdateClick}>Actualizar</button>
                 </div>)
     }
