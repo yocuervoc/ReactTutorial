@@ -1,9 +1,13 @@
 import React, {Component} from 'react'
-
+import PropTypes from 'prop-types'
 class ForecastExtended extends Component{
     render(){
-        return (<div>Pronostico extendido</div>)
+        const city = this.props.city //const {city} = this.props
+    return (<div>Pronostico extendido para {city}</div>)
     }
 }
 
+ForecastExtended.protpType ={
+    city: PropTypes.string.isRequired,
+}
 export default ForecastExtended
